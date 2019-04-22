@@ -67,7 +67,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <p class="navbar-text navbar-right " style="font-weight: 700">
-                欢迎 【jack】登录
+                欢迎<span class="username">【jack】</span>登录
                 <a href="#" class="logout">退出</a>
               </p>
             </div>
@@ -186,7 +186,10 @@
           query
         },
         success: (obj) => {
-          console.log(obj);
+          // console.log(obj);
+          if(obj.code==400){
+            location='login.html';
+          }
           $('.tboy').html(template('cq', obj));
           $('.page-num a').text(`${pagenum}/${obj.totalPage}`);
         }
@@ -202,21 +205,40 @@
       list();
     })
 
-
-    $('.form-control').keyup((e) => {
-      if (e.keyCode === 13){
-        query= $('.form-control').val();
-        list()
-      }
-    })
-
-    $('.btn-success').click((e) => {
-      e.preventDefault()
+    $('form').submit(function(e){
       query= $('.form-control').val();
       list()
+      e.preventDefault();
     })
 
-
+    // $('.form-control').keyup((e) => {
+    //   if (e.keyCode === 13){
+    //     query= $('.form-control').val();
+    //     list()
+    //   }
+    // })
+    $('.logout').click(function(){
+      $.ajax({
+        url:'/logout',
+        success:function(obj){
+          console.log(obj);
+          alert(obj.msg);
+          setTimeout(()=>{
+            location='./login.html';
+          },1000)
+        }
+      })
+    })
+    // $('.btn-success').click((e) => {
+    //   e.preventDefault()
+    //   query= $('.form-control').val();
+    //   list()
+    // })
+    let username = location.search.split('=')[1];
+    console.log(username);
+    username=decodeURI(`${username}`);
+    $('.username').text(username);
+    
     $('.tboy').on('click','.btn-updata',function(){
       const id =$(this).data('id');
       // console.log($(this).data('id'));

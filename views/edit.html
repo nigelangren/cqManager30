@@ -30,6 +30,16 @@
       text-decoration: none;
       color: yellowgreen;
     }
+
+    .from-img{
+      width: 200px;
+      height: 200px;
+      margin-left: 50%;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      transform: translateX(-50%);
+
+    }
   </style>
 </head>
 
@@ -96,6 +106,7 @@
                   <input required type="file" class="form-control" id="heroIcon" name="heroIcon" />
                 </div>
               </div>
+              <img class="from-img" src="" alt="">
               <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                   <button type="submit" class="btn btn-default btn-updata">保存</button>
@@ -133,6 +144,7 @@
         $('#heroName').val(obj.heroName);
         $('#skillName').val(obj.skillName);
         $('.btn-id').val(obj._id);
+        $('.from-img').attr('src',obj.heroIcon);
       }
     })
 
@@ -165,7 +177,12 @@
       // console.log(data);
     })
 
-
+    $('#heroIcon').change(function(e){
+      // console.log();
+      const url =URL.createObjectURL(e.target.files[0]);
+      console.log(url);
+      $('.from-img').attr('src',url);
+    })
 
   })
 </script>
